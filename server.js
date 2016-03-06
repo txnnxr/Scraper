@@ -35,7 +35,7 @@ request(frontPageURL, body);
 function body(error, resp, body){
     if(!error){
         var $ = cheerio.load(body);
-
+//
         //has to be some sort of for each 
         //div.summary-item
         $('div.summary-item').each(function(i, element){
