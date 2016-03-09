@@ -62,7 +62,7 @@ module.exports = function(app)
         'items': []
     }; 
 
-    var mins = 5, //every 6 hours 
+    var mins = 60, //every 6 hours 
         the_interval = mins * 60 * 1000;
 
 	res.render('index.html');
