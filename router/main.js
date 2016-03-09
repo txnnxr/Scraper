@@ -60,7 +60,7 @@ module.exports = function(app)
         'ver': 0,
         'items': []
     };
-    var mins = 1, //every 6 hours 
+    var mins = 60, //every 6 hours 
         the_interval = mins * 60 * 1000;
 
 	res.render('index.html');
@@ -84,7 +84,7 @@ module.exports = function(app)
         }
       });
 
-      	setTimeout(run,800);
+      	setTimeout(run,1000);
 
     	setTimeout(function(){
 	        fs.writeFile('views/pondJson.txt', JSON.stringify(results));
@@ -93,7 +93,7 @@ module.exports = function(app)
 	          results.ver += 1;
 	          results.count = 0;
 	          results.items = [];
-      	},6000);
+      	},7000);
     }, the_interval);  
 
 	function run(){
