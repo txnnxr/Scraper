@@ -4,6 +4,7 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 
+app.set('port', (process.env.PORT || 5000));
 app.use(express.static('/views'));
 require('./router/main')(app);
 app.use(express.static(__dirname + '/views'));
