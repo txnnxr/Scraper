@@ -86,7 +86,30 @@ module.exports = function(app)
         }
       });
 
-      	setTimeout(run,1000);
+      	setTimeout(function(){
+        for(var i = 0; i < urls.length; i++){
+          s(i);
+          function s(k){
+            request(urls[k], function(error, resp, body){
+              if(!error){
+                var $ = cheerio.load(body);
+                  $('div.summary-item').each(function(){
+                      results.items.push({// this doesnt work either
+                        title : $('a.summary-title-link' , this).text(),
+                        subtitle : $('div.summary-excerpt>p', this).text(),
+                        imageURL : $('img.summary-thumbnail-image', this).attr('data-src'),
+                        articleURL : $('a.summary-title-link', this).attr('href'),
+                        URL : urls[k].url, //can't call the urls array
+                        index : results.count,
+                        featured : false
+                      });
+                    results.count += 1;
+                  });
+                }
+            });
+          }
+        }
+  },1000);
 
     	setTimeout(function(){
 	        fs.writeFile('views/pondJson.txt', JSON.stringify(results));
@@ -98,30 +121,7 @@ module.exports = function(app)
       	},7000);
     }, the_interval);  
 
-	function run(){
-	      for(var i = 0; i < urls.length; i++){
-	        s(i);
-	        function s(k){
-	          request(urls[k], function(error, resp, body){
-	            if(!error){
-	              var $ = cheerio.load(body);
-	                $('div.summary-item').each(function(){
-	                    results.items.push({// this doesnt work either
-	                      title : $('a.summary-title-link' , this).text(),
-	                      subtitle : $('div.summary-excerpt>p', this).text(),
-	                      imageURL : $('img.summary-thumbnail-image', this).attr('data-src'),
-	                      articleURL : $('a.summary-title-link', this).attr('href'),
-	                      URL : urls[k].url, //can't call the urls array
-	                      index : results.count,
-	                      featured : false
-	                    });
-	                  results.count += 1;
-	                });
-	              }
-	          });
-	        }
-	      }
-	}
+
 
 	});
 }
