@@ -55,19 +55,21 @@ module.exports = function(app)
       }
     }
   ];
-    var mins = 2.5, //every 6 hours 
+
+      var results = {
+        'count': 0,
+        'ver': 0,
+        'items': []
+    }; 
+
+    var mins = .5, //every 6 hours 
         the_interval = mins * 60 * 1000;
 
 	res.render('index.html');
     
     setInterval(function() {
 
-    var results = {
-        'count': 0,
-        'ver': 0,
-        'items': []
-    };
-
+    (function(){
       request(urls[0], function(error, resp, body){
         if(!error){
             //featured item
@@ -85,7 +87,7 @@ module.exports = function(app)
             results.count += 1;
         }
       });
-
+    })();
       	setTimeout(function(){
         for(var i = 0; i < urls.length; i++){
           s(i);
@@ -109,16 +111,19 @@ module.exports = function(app)
             });
           }
         }
-  },1000);
+  },800);
 
     	setTimeout(function(){
 	        fs.writeFile('views/pondJson.txt', JSON.stringify(results));
-	        //console.log(results);
-			res.render('index.html');
+    			res.render('index.html');
+          console.log(results.ver);
 	          results.ver += 1;
+            console.log(results.ver);
+            console.log(results.count);
 	          results.count = 0;
 	          results.items = [];
-      	},7000);
+            console.log(results.count);
+      	},5000);
     }, the_interval);  
 
 
