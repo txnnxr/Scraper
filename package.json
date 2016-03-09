@@ -1,0 +1,12 @@
+{
+  "name": "Express-web-app",
+  "version": "1.0.0",
+  "dependencies":
+  {
+    "express": "~4.0.0",
+    "mysql": "*",
+    "ejs": "~1.0.0",
+    "cheerio": "0.20.0 ",
+    "request": "2.69.0 "
+  }
+}
