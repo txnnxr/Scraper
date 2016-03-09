@@ -55,17 +55,19 @@ module.exports = function(app)
       }
     }
   ];
-    var results = {
-        'count': 0,
-        'ver': 0,
-        'items': []
-    };
     var mins = 2.5, //every 6 hours 
         the_interval = mins * 60 * 1000;
 
 	res.render('index.html');
     
     setInterval(function() {
+
+    var results = {
+        'count': 0,
+        'ver': 0,
+        'items': []
+    };
+
       request(urls[0], function(error, resp, body){
         if(!error){
             //featured item
