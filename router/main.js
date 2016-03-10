@@ -65,7 +65,7 @@ var fs = require('fs');
 module.exports = function(app){
 	app.get('/',function(req,res){
     
-  res.render('pond.json');
+  //res.render('index.html');
 
 
    featuredItem(function(){
@@ -133,8 +133,10 @@ module.exports = function(app){
     };
 
   	function writeFile(callback){
-        fs.writeFile('views/pondJson.json', JSON.stringify(results));
-  			res.render('index.html');
+       // fs.writeFile('views/pond.json', JSON.stringify(results));
+        res.write(JSON.stringify(results));
+        res.end();
+  			//res.render('pond.json');
         console.log(results.ver);
           results.ver += 1;
           console.log(results.count);
