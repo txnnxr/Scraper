@@ -65,6 +65,9 @@ var fs = require('fs');
 module.exports = function(app){
 	app.get('/',function(req,res){
     
+  res.render('index.html');
+
+
    featuredItem(function(){
       bodyItems(function(){
         writeFile(function(){
@@ -72,6 +75,8 @@ module.exports = function(app){
         });
       });
     });
+
+
     function featuredItem(callback){
       request(urls[0], function(error, resp, body){
         if(!error){
