@@ -59,14 +59,8 @@ var fs = require('fs');
         'items': []
     }; 
 
-    var mins = .5, //every 6 hours 
-        the_interval = mins * 60 * 1000;
-
 module.exports = function(app){
 	app.get('/',function(req,res){
-    
-  //res.render('index.html');
-
 
    featuredItem(function(){
       bodyItems(function(){
@@ -80,8 +74,6 @@ module.exports = function(app){
     function featuredItem(callback){
       request(urls[0], function(error, resp, body){
         if(!error){
-            //featured item
-            //is either first or after the first run of the body 
             var $ = cheerio.load(body);
                 results.items.push({
                     title : $('div.desc-wrapper>p>strong').text(),
@@ -89,7 +81,7 @@ module.exports = function(app){
                     imageURL : $('div.banner-thumbnail-wrapper>figure>img').attr('data-src'),
                     articleURL : $('div.desc-wrapper>p>a').attr('href'),
                     URL : urls[0].url,
-                    index : results.count, //fIndex can always be 0 since it will always be the first one
+                    index : results.count,
                     featured : true
                 });
             results.count += 1;
@@ -113,12 +105,12 @@ module.exports = function(app){
             if(!error){
               var $ = cheerio.load(body);
               $('div.summary-item').each(function(){
-                  results.items.push({// this doesnt work either
+                  results.items.push({
                     title : $('a.summary-title-link' , this).text(),
                     subtitle : $('div.summary-excerpt>p', this).text(),
                     imageURL : $('img.summary-thumbnail-image', this).attr('data-src'),
                     articleURL : $('a.summary-title-link', this).attr('href'),
-                    URL : urls[k].url, //can't call the urls array
+                    URL : urls[k].url, 
                     index : results.count,
                     featured : false
                   });
@@ -133,10 +125,8 @@ module.exports = function(app){
     };
 
   	function writeFile(callback){
-       // fs.writeFile('views/pond.json', JSON.stringify(results));
         res.write(JSON.stringify(results));
         res.end();
-  			//res.render('pond.json');
         console.log(results.ver);
           results.ver += 1;
           console.log(results.count);
