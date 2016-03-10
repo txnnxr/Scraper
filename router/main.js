@@ -133,7 +133,7 @@ module.exports = function(app){
     };
 
   	function writeFile(callback){
-        fs.writeFile('views/pondJson.txt', JSON.stringify(results));
+        fs.writeFile('views/pondJson.json', JSON.stringify(results));
   			res.render('index.html');
         console.log(results.ver);
           results.ver += 1;
