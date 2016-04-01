@@ -2,88 +2,91 @@ var request = require('request');
 var cheerio = require('cheerio');
 var fs = require('fs');
 
-    var urls = [
-      {
-        url : 'http://www.pond-mag.com/',
-        headers: {
-          'User-Agent': 'request'
-        }
-      },
-      {
-        url : 'http://www.pond-mag.com/editorials-2/',
-        headers: {
-          'User-Agent': 'request'
-        }
-      },
-      {
-        url : 'http://www.pond-mag.com/spotlight/',
-        headers: {
-          'User-Agent': 'request'
-        }
-      },
-      {
-        url : 'http://www.pond-mag.com/interviews/',
-        headers: {
-          'User-Agent': 'request'
-        }
-      },
-      {
-        url : 'http://www.pond-mag.com/diaries-1/',
-        headers: {
-          'User-Agent': 'request'
-        }
-      },
-      {
-        url : 'http://www.pond-mag.com/photography-1/',
-        headers: {
-          'User-Agent': 'request'
-        }
-      },
-      {
-        url : 'http://www.pond-mag.com/featured-artists/',
-        headers: {
-          'User-Agent': 'request'
-        }
-      },
-      {
-        url : 'http://www.pond-mag.com/literature-/',
-        headers: {
-          'User-Agent': 'request'
-        }
-      }
-    ];
+var urls = [
+  {
+    url : 'http://www.pond-mag.com/',
+    headers: {
+      'User-Agent': 'request'
+    }
+  },
+  {
+    url : 'http://www.pond-mag.com/editorials-2/',
+    headers: {
+      'User-Agent': 'request'
+    }
+  },
+  {
+    url : 'http://www.pond-mag.com/spotlight/',
+    headers: {
+      'User-Agent': 'request'
+    }
+  },
+  {
+    url : 'http://www.pond-mag.com/interviews/',
+    headers: {
+      'User-Agent': 'request'
+    }
+  },
+  {
+    url : 'http://www.pond-mag.com/diaries-1/',
+    headers: {
+      'User-Agent': 'request'
+    }
+  },
+  {
+    url : 'http://www.pond-mag.com/photography-1/',
+    headers: {
+      'User-Agent': 'request'
+    }
+  },
+  {
+    url : 'http://www.pond-mag.com/featured-artists/',
+    headers: {
+      'User-Agent': 'request'
+    }
+  },
+  {
+    url : 'http://www.pond-mag.com/literature-/',
+    headers: {
+      'User-Agent': 'request'
+    }
+  }
+];
 
-      var results = {
-        'count': 0,
-        'ver': 0,
-        'items': []
-    }; 
+var results = {
+    'count': 0,
+    'ver': 0,
+    'items': []
+}; 
+
+//change this so the get outputs a json file
+//and have a seperate function that runs every hour to update that file
+//but the get only ever just displays that file so it happens instantaneously 
+
 
 module.exports = function(app){
 	app.get('/',function(req,res){
-
-   featuredItem(function(){
-      bodyItems(function(){
-        writeFile(function(){
-          console.log(process.memoryUsage());
+     featuredItem(function(){
+        bodyItems(function(){
+          writeFile(function(){
+            console.log(process.memoryUsage());
+          });
         });
       });
-    });
-
 
     function featuredItem(callback){
       request(urls[0], function(error, resp, body){
         if(!error){
             var $ = cheerio.load(body);
-                results.items.push({
-                    title : $('div.desc-wrapper>p>strong').text(),
-                    subtitle : $('div.desc-wrapper>p>a').text(),
-                    imageURL : $('div.banner-thumbnail-wrapper>figure>img').attr('data-src'),
-                    articleURL : $('div.desc-wrapper>p>a').attr('href'),
-                    URL : urls[0].url,
-                    index : results.count,
-                    featured : true
-                });
+            results.items.push({
+                title : $('div.desc-wrapper>p>strong').text(),
+                subtitle : $('div.desc-wrapper>p>a').text(),
+                imageURL : $('div.banner-thumbnail-wrapper>figure>img').attr('data-src'),
+                articleURL : $('div.desc-wrapper>p>a').attr('href'),
+                URL : urls[0].url,
+                index : results.count,
+                featured : true
+            });
             results.count += 1;
             callback();
         }
@@ -133,7 +136,7 @@ module.exports = function(app){
           results.count = 0;
           results.items = [];
         callback();
-    	};
+    };
 
 	});
 }
