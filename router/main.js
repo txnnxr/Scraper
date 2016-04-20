@@ -59,10 +59,6 @@ var results = {
     'items': []
 }; 
 
-//change this so the get outputs a json file
-//and have a seperate function that runs every hour to update that file
-//but the get only ever just displays that file so it happens instantaneously 
-
 
 module.exports = function(app){
 	app.get('/',function(req,res){
